@@ -1,0 +1,32 @@
+.Footer {
+    display: flex;
+    padding: 16px 0px 16px 16px;
+    position: relative;
+}
+
+.Footer .btns {
+    padding-left: 80px;
+}
+
+.Footer .btns .btn {
+    margin-right: 10px;
+    padding: 3px 6px;
+    border-radius: 2px;
+    outline: none;
+    border: 1px solid #fff;
+    background: #fff;
+    cursor: pointer;
+}
+
+.Footer .btns .btn:hover {
+    border-color: #ebd7d7;
+}
+
+.clear {
+    position: absolute;
+    border: none;
+    top: 16px;
+    right: 16px;
+    background: #fff;
+    cursor: pointer;
+}
