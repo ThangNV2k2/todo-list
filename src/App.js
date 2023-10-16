@@ -63,18 +63,11 @@ class App extends React.Component {
   };
   render() {
     const { todoList, myOption } = this.state;
-    const addTodo = (todo) => {
-      const { todoList } = this.state;
-      const newList = [todo, ...todoList];
-      this.setState({
-        todoList: newList,
-      });
-    };
     return (
       <div className="container">
         <h1>todos</h1>
         <div className="main">
-          <Header addTodo={addTodo} />
+          <Header addTodo={this.addTodo} />
           <TodoList
             todoList={todoList}
             myOption={myOption}
