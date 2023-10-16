@@ -9,8 +9,7 @@ class App extends React.Component {
     super();
     this.state = {
       todoList: [],
-      filterTodoList: [],
-      check: false,
+      myOption: "All",
     };
   }
   addTodo = (todo) => {
@@ -29,17 +28,10 @@ class App extends React.Component {
   };
   editTodoItem = (id, content) => {
     const { todoList } = this.state;
-    const newList = todoList.map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          content,
-        };
-      }
-      return todo;
-    });
+    const newTodo = todoList.find((todo) => todo.id === id);
+    newTodo.content = content;
     this.setState({
-      todoList: newList,
+      todoList,
     });
   };
   changeIsCompleted = (id) => {
@@ -57,63 +49,42 @@ class App extends React.Component {
       todoList: newList,
     });
   };
-  todoInCompleted = () => {
-    const { todoList } = this.state;
-    const newList = todoList.filter((todo) => todo.isCompleted === false);
-    this.setState({
-      filterTodoList: newList,
-      check: false,
-    });
-  };
-  todoCompleted = () => {
-    const { todoList } = this.state;
-    const newList = todoList.filter((todo) => todo.isCompleted === true);
-    this.setState({
-      filterTodoList: newList,
-      check: true,
-    });
-  };
-  allTodo = () => {
-    this.setState({
-      filterTodoList: [],
-      check: false,
-    });
-  };
   deleteAllTodoItem = () => {
     const { todoList } = this.state;
     const newList = todoList.filter((todo) => todo.isCompleted === false);
     this.setState({
       todoList: newList,
     });
-  }
+  };
+  changeOption = (option) => {
+    this.setState({
+      myOption: option,
+    });
+  };
   render() {
-    const { todoList } = this.state;
-    const { filterTodoList } = this.state;
+    const { todoList, myOption } = this.state;
+    const addTodo = (todo) => {
+      const { todoList } = this.state;
+      const newList = [todo, ...todoList];
+      this.setState({
+        todoList: newList,
+      });
+    };
     return (
       <div className="container">
         <h1>todos</h1>
         <div className="main">
-          <Header addTodo={this.addTodo} />
-          {filterTodoList.length > 0 || this.state.check === true ? (
-            <TodoList
-              todoList={filterTodoList}
-              deleteTodoItem={this.deleteTodoItem}
-              editTodoItem={this.editTodoItem}
-              changeIsCompleted={this.changeIsCompleted}
-            />
-          ) : (
-            <TodoList
-              todoList={todoList}
-              deleteTodoItem={this.deleteTodoItem}
-              editTodoItem={this.editTodoItem}
-              changeIsCompleted={this.changeIsCompleted}
-            />
-          )}
+          <Header addTodo={addTodo} />
+          <TodoList
+            todoList={todoList}
+            myOption={myOption}
+            deleteTodoItem={this.deleteTodoItem}
+            editTodoItem={this.editTodoItem}
+            changeIsCompleted={this.changeIsCompleted}
+          />
           <Footer
             todoList={todoList}
-            todoInCompleted={this.todoInCompleted}
-            todoCompleted={this.todoCompleted}
-            allTodo={this.allTodo}
+            changeOption={this.changeOption}
             deleteAllTodoItem={this.deleteAllTodoItem}
           />
         </div>

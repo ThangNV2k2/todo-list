@@ -5,14 +5,15 @@ export default class Footer extends React.Component {
   constructor() {
     super();
     this.state = {
-      cntTodo: 0
+      cntTodo: 0,
+      activeOption: "All",
     };
   }
   cntInCompleted = () => {
     const { todoList } = this.props;
     let cnt = 0;
-    todoList.forEach((element) => {
-      if (!element.isCompleted) {
+    todoList.forEach((e) => {
+      if (!e.isCompleted) {
         cnt++;
       }
     });
@@ -20,36 +21,47 @@ export default class Footer extends React.Component {
       cntTodo: cnt,
     });
   };
+  componentDidMount() {
+    this.cntInCompleted();
+  }
   componentDidUpdate(prevProps) {
     if (prevProps.todoList !== this.props.todoList) {
       this.cntInCompleted();
     }
   }
+  changeOption = (option) => {
+    this.setState({
+      activeOption: option,
+    });
+    this.props.changeOption(option);
+  }
   render() {
-    const { todoList } = this.props;
-    const { cntTodo } = this.state;
+    const { todoList, deleteAllTodoItem } = this.props;
+    const { cntTodo, activeOption } = this.state;
     return (
       todoList.length > 0 && (
         <div className="Footer">
-          <p>{this.state.cntTodo} items left</p>
-          <div className="btns">
-            <button className="btn" onClick={this.props.allTodo}>
-              All
-            </button>
-            <button className="btn" onClick={this.props.todoInCompleted}>
-              Active
-            </button>
-            <button className="btn" onClick={this.props.todoCompleted}>
-              Completed
-            </button>
+          <div className="Footer--left">
+            <p>{cntTodo} items left</p>
+            <div className="btns">
+              <button className={`btn ${activeOption === "All" ? "act" : ""}`} onClick={() => this.changeOption("All")}>
+                All
+              </button>
+              <button className={`btn ${activeOption === "Active" ? "act" : ""}`} onClick={() => this.changeOption("Active")}>
+                Active
+              </button>
+              <button className={`btn ${activeOption === "Completed" ? "act" : ""}`} onClick={() => this.changeOption("Completed")}>
+                Completed
+              </button>
+            </div>
           </div>
-          {
-              (todoList.length -  cntTodo) > 0 && (
-                <button className="clear" onClick={this.props.deleteAllTodoItem}>
-                  Clear completed
-                </button>
-              )
-            }
+          <div className="Footer--right">
+            {todoList.length - cntTodo > 0 && (
+              <button className="clear" onClick={deleteAllTodoItem}>
+                Clear completed
+              </button>
+            )}
+          </div>
         </div>
       )
     );

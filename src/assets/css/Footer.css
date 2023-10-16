@@ -1,32 +1,39 @@
 .Footer {
     display: flex;
-    padding: 16px 0px 16px 16px;
-    position: relative;
+    padding: 16px;
 }
-
-.Footer .btns {
-    padding-left: 80px;
+.Footer--left {
+    flex: 5;
+    display: flex;
+    justify-content: space-between;
 }
-
-.Footer .btns .btn {
+.Footer--right {
+    flex: 2;
+    display: flex;
+    justify-content: flex-end;
+}
+.Footer .Footer--left .btns .btn {
     margin-right: 10px;
     padding: 3px 6px;
     border-radius: 2px;
     outline: none;
-    border: 1px solid #fff;
     background: #fff;
     cursor: pointer;
+    border: 1px solid #fff;
 }
 
 .Footer .btns .btn:hover {
-    border-color: #ebd7d7;
+    border: 1px solid #ebd7d7;
+}
+.act {
+    color: #aaa;
 }
 
 .clear {
-    position: absolute;
     border: none;
-    top: 16px;
-    right: 16px;
     background: #fff;
     cursor: pointer;
+}
+.clear:hover {
+    text-decoration: underline;
 }

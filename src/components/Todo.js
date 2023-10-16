@@ -8,24 +8,24 @@ class Todo extends React.Component {
       value: props.todo.content,
     };
   }
-  handleDelete = (e) => {
-    const { id } = e.target;
-    this.props.deleteTodoItem(id);
+  handleDelete = () => {
+    const { todo, deleteTodoItem } = this.props;
+    deleteTodoItem(todo.id);
   };
-  handleDoubleClick = (e) => {
+  handleDoubleClick = () => {
     this.setState({
       isEditing: true,
     });
   };
   handleKeyDown = (e) => {
     if (e.code === "Enter") {
-      const { id } = e.target;
+      const { todo } = this.props;
       const newContent = e.target.value;
       this.setState({
         isEditing: false,
         value: newContent,
       });
-      this.props.editTodoItem(id, newContent);
+      this.props.editTodoItem(todo.id, newContent);
     }
   };
   changeValue = (e) => {
@@ -34,14 +34,13 @@ class Todo extends React.Component {
       value,
     });
   };
-  changeIsCompleted = (e) => {
-    const { id } = e.target;
-    this.props.changeIsCompleted(id);
+  changeIsCompleted = () => {
+    const { todo, changeIsCompleted } = this.props;
+    changeIsCompleted(todo.id);
   };
   render() {
     const { todo } = this.props;
-    const { isEditing } = this.state;
-    const { value } = this.state;
+    const { isEditing, value } = this.state;
     return (
       <li className="todo-item">
         {isEditing ? (
@@ -52,13 +51,12 @@ class Todo extends React.Component {
               className="input"
               onChange={this.changeValue}
               value={value}
-              id={todo.id}
             />
           </div>
         ) : (
           <div className="todo">
             <div className="todo_check">
-              <label className="checkbox_item" for={todo.id}>
+              <label className="checkbox_item" htmlFor={todo.id}>
                 <input
                   type="checkbox"
                   id={todo.id}
@@ -71,11 +69,10 @@ class Todo extends React.Component {
             </div>
             <div className="div_content" onDoubleClick={this.handleDoubleClick}>
               <p className={todo.isCompleted ? "content" : ""}>
-                {todo.content}
+                {value}
               </p>
               <i
                 className="fa-solid fa-xmark"
-                id={todo.id}
                 onClick={this.handleDelete}
               ></i>
             </div>

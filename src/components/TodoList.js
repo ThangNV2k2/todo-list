@@ -2,28 +2,34 @@ import React from "react";
 import Todo from "./Todo";
 import "../assets/css/TodoList.css";
 class TodoList extends React.Component {
-  deleteTodoItem = (id) => {
-    this.props.deleteTodoItem(id);
-  };
-  editTodoItem = (id, content) => {
-    this.props.editTodoItem(id, content);
-  };
-  changeIsCompleted = (id) => {
-    this.props.changeIsCompleted(id);
-  };
   render() {
-    const { todoList } = this.props;
+    const {
+      todoList,
+      myOption,
+      editTodoItem,
+      changeIsCompleted,
+      deleteTodoItem,
+    } = this.props;
     return (
       <ul className="todo-list">
-        {todoList.map((todo) => (
-          <Todo
-            key={todo.id}
-            todo={todo}
-            deleteTodoItem={this.deleteTodoItem}
-            editTodoItem={this.editTodoItem}
-            changeIsCompleted={this.changeIsCompleted}
-          />
-        ))}
+        {todoList.map((todo) => {
+          if (
+            myOption === "All" ||
+            (myOption === "Active" && !todo.isCompleted) ||
+            (myOption === "Completed" && todo.isCompleted)
+          ) {
+            return (
+              <Todo
+                key={todo.id}
+                todo={todo}
+                editTodoItem={editTodoItem}
+                changeIsCompleted={changeIsCompleted}
+                deleteTodoItem={deleteTodoItem}
+              />
+            );
+          }
+          return null;
+        })}
       </ul>
     );
   }
