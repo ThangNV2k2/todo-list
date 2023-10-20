@@ -3,6 +3,7 @@ import "../assets/css/Todo.css";
 class Todo extends React.Component {
   constructor(props) {
     super(props);
+    this.inputRef = React.createRef();
     this.state = {
       isEditing: false,
       value: props.todo.content,
@@ -12,10 +13,11 @@ class Todo extends React.Component {
     const { todo, deleteTodoItem } = this.props;
     deleteTodoItem(todo.id);
   };
-  handleDoubleClick = () => {
-    this.setState({
+  handleDoubleClick = async () => {
+    await this.setState({
       isEditing: true,
     });
+    this.inputRef.current.focus();
   };
   handleKeyDown = (e) => {
     if (e.code === "Enter") {
@@ -39,7 +41,7 @@ class Todo extends React.Component {
     changeIsCompleted(todo.id);
   };
   render() {
-    const { todo } = this.props;
+    const { todo, requestUpdate } = this.props;
     const { isEditing, value } = this.state;
     return (
       <li className="todo-item">
@@ -51,6 +53,7 @@ class Todo extends React.Component {
               className="input"
               onChange={this.changeValue}
               value={value}
+              ref={this.inputRef}
             />
           </div>
         ) : (
@@ -71,10 +74,15 @@ class Todo extends React.Component {
               <p className={todo.isCompleted ? "content" : ""}>
                 {value}
               </p>
-              <i
-                className="fa-solid fa-xmark"
-                onClick={this.handleDelete}
+              <div className="feature">
+                <i 
+                  className="fa-solid fa-pencil"
+                  onClick={() => requestUpdate(todo.id)}></i>
+                <i
+                  className="fa-solid fa-trash"
+                  onClick={this.handleDelete}
               ></i>
+              </div>
             </div>
           </div>
         )}

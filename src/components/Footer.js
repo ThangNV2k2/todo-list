@@ -1,12 +1,12 @@
 import "../assets/css/Footer.css";
 import React from "react";
+import { options } from "../App";
 
 export default class Footer extends React.Component {
   constructor() {
     super();
     this.state = {
       cntTodo: 0,
-      activeOption: "All",
     };
   }
   cntInCompleted = () => {
@@ -29,28 +29,31 @@ export default class Footer extends React.Component {
       this.cntInCompleted();
     }
   }
-  changeOption = (option) => {
-    this.setState({
-      activeOption: option,
-    });
-    this.props.changeOption(option);
-  }
   render() {
-    const { todoList, deleteAllTodoItem } = this.props;
-    const { cntTodo, activeOption } = this.state;
+    const { todoList, deleteAllTodoItem, myOption, changeOption } = this.props;
+    const { cntTodo } = this.state;
     return (
       todoList.length > 0 && (
         <div className="Footer">
           <div className="Footer--left">
             <p>{cntTodo} items left</p>
             <div className="btns">
-              <button className={`btn ${activeOption === "All" ? "act" : ""}`} onClick={() => this.changeOption("All")}>
+              <button
+                className={`btn ${myOption === options.All ? "act" : ""}`}
+                onClick={() => changeOption(options.All)}
+              >
                 All
               </button>
-              <button className={`btn ${activeOption === "Active" ? "act" : ""}`} onClick={() => this.changeOption("Active")}>
+              <button
+                className={`btn ${myOption === options.Active ? "act" : ""}`}
+                onClick={() => changeOption(options.Active)}
+              >
                 Active
               </button>
-              <button className={`btn ${activeOption === "Completed" ? "act" : ""}`} onClick={() => this.changeOption("Completed")}>
+              <button
+                className={`btn ${myOption === options.Completed ? "act" : ""}`}
+                onClick={() => changeOption(options.Completed)}
+              >
                 Completed
               </button>
             </div>

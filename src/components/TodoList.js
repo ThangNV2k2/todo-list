@@ -1,13 +1,39 @@
 import React from "react";
 import Todo from "./Todo";
 import "../assets/css/TodoList.css";
+import { options } from "../App";
 class TodoList extends React.Component {
   constructor() {
     super();
     this.state = {
       currentPage: 1, // trang hien tai
       todosPerPage: 3, // so todo hien thi tren 1 trang
+      pageNumbers: [] // cac nut phan trang
     };
+  }
+  componentDidMount() {
+    const { todosPerPage } = this.state;
+    const { todoList } = this.props;
+    const pageList = [];
+    for (let i = 1; i <= Math.ceil(todoList.length / todosPerPage); i++) {
+      pageList.push(i);
+    }
+    this.setState({
+      pageNumbers: pageList
+    })
+  }
+  componentDidUpdate(prevProps) {
+    if(prevProps.todoList !== this.props.todoList) {
+      const { todosPerPage } = this.state;
+      const { todoList } = this.props;
+      const pageList = [];
+      for (let i = 1; i <= Math.ceil(todoList.length / todosPerPage); i++) {
+        pageList.push(i);
+      }
+      this.setState({
+        pageNumbers: pageList
+      })
+    }
   }
   render() {
     const {
@@ -16,26 +42,22 @@ class TodoList extends React.Component {
       editTodoItem,
       changeIsCompleted,
       deleteTodoItem,
+      requestUpdate
     } = this.props;
-    const { currentPage, todosPerPage } = this.state;
+    const { currentPage, todosPerPage, pageNumbers } = this.state;
     //tinh toan cac cong viec can hien thi tren mot trang
     const indexOfLastTodo = currentPage * todosPerPage;
     const indexOfFirstTodo = indexOfLastTodo - todosPerPage;
     const currentTodoList = todoList.slice(indexOfFirstTodo, indexOfLastTodo);
-    // tao cac nut phan trang
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(todoList.length / todosPerPage); i++) {
-      pageNumbers.push(i);
-    }
 
     return (
       <div className="body">
         <ul className="todo-list">
           {currentTodoList.map((todo) => {
             if (
-              myOption === "All" ||
-              (myOption === "Active" && !todo.isCompleted) ||
-              (myOption === "Completed" && todo.isCompleted)
+              myOption === options.All ||
+              (myOption === options.Active && !todo.isCompleted) ||
+              (myOption === options.Completed && todo.isCompleted)
             ) {
               return (
                 <Todo
@@ -44,6 +66,7 @@ class TodoList extends React.Component {
                   editTodoItem={editTodoItem}
                   changeIsCompleted={changeIsCompleted}
                   deleteTodoItem={deleteTodoItem}
+                  requestUpdate={requestUpdate}
                 />
               );
             }
