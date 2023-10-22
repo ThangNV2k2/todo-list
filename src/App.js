@@ -12,8 +12,8 @@ const options = {
 };
 export { options };
 class App extends React.Component {
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
     this.state = {
       todoList: [
         {id: uuidv4(), content: "Đi chợ", isCompleted: false},
