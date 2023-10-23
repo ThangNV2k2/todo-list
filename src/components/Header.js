@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../assets/css/Header.css";
+import propstypes from "prop-types";
 class Header extends React.Component {
   constructor() {
     super();
@@ -33,45 +34,50 @@ class Header extends React.Component {
   };
   eventUpdate = (e) => {
     if (e.code === "Enter") {
+      const { updateContent } = this.props;
       const { value } = this.state;
       if (value.trim() !== "") {
-        this.props.updateTodoItem(value.trim());
+        updateContent(value.trim());
         this.setState({
           value: "",
         });
       }
     }
   };
-  componentDidUpdate() {
-    const { refInputUpdate } = this.props;
-    if (refInputUpdate) {
-      this.inputRef.current.focus();
-    }
-  }
   render() {
     const { value } = this.state;
-    const { refInputUpdate } = this.props;
+    const { clickUpdate, inputRef } = this.props;
     return (
       <div className="header">
-        {!refInputUpdate ? (
+        {!clickUpdate ? (
           <input
-          type="text"
-          placeholder="What needs to be done?"
-          value={value}
-          onChange={this.updateContent}
-          onKeyDown={this.eventSubmit}
-        />
+            type="text"
+            placeholder="What needs to be done?"
+            value={value}
+            onChange={this.updateContent}
+            onKeyDown={this.eventSubmit}
+          />
         ) : (
           <input
-          type="text"
-          value={value}
-          ref={this.inputRef}
-          onChange={this.updateContent}
-          onKeyDown={this.eventUpdate}
-        />
+            type="text"
+            value={value}
+            onChange={this.updateContent}
+            onKeyDown={this.eventUpdate}
+            ref={inputRef}
+          />
         )}
       </div>
     );
   }
 }
+Header.propstypes = {
+  addTodo: propstypes.func,
+  updateTodoItem: propstypes.func,
+  inputRef: propstypes.object,
+  updateContent: propstypes.func,
+  clickUpdate: propstypes.bool,
+};
+Header.defaultProps = {
+  clickUpdate: false,
+};
 export default Header;

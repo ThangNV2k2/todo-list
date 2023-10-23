@@ -1,8 +1,8 @@
 import "../assets/css/Footer.css";
 import React from "react";
 import { options } from "../App";
-
-export default class Footer extends React.Component {
+import propstypes from "prop-types";
+class Footer extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -70,3 +70,10 @@ export default class Footer extends React.Component {
     );
   }
 }
+Footer.propTypes = {
+  todoList: propstypes.array,
+  deleteAllTodoItem: propstypes.func,
+  myOption: propstypes.string,
+  changeOption: propstypes.func,
+};
+export default Footer;

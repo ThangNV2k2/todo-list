@@ -1,5 +1,6 @@
 import React from "react";
 import "../assets/css/Todo.css";
+import propstypes from "prop-types";
 class Todo extends React.Component {
   constructor(props) {
     super(props);
@@ -72,7 +73,7 @@ class Todo extends React.Component {
             </div>
             <div className="div_content" onDoubleClick={this.handleDoubleClick}>
               <p className={todo.isCompleted ? "content" : ""}>
-                {value}
+                {todo.content}
               </p>
               <div className="feature">
                 <i 
@@ -89,5 +90,17 @@ class Todo extends React.Component {
       </li>
     );
   }
+}
+
+Todo.propTypes = {
+  todo: propstypes.shape({
+    id: propstypes.string,
+    content: propstypes.string,
+    isCompleted: propstypes.bool,
+  }),
+  editTodoItem: propstypes.func,
+  changeIsCompleted: propstypes.func,
+  deleteTodoItem: propstypes.func,
+  requestUpdate: propstypes.func,
 }
 export default Todo;

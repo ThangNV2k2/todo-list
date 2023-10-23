@@ -20,9 +20,11 @@ class App extends React.Component {
         {id: uuidv4(), content: "Nấu cơm", isCompleted: false},
       ],
       myOption: options.All,
-      refInputUpdate: false,
-      idRef: null,
+      clickUpdate: false,
+      idClick: null,
+      inputValue: "",
     };
+    this.inputRef = React.createRef();
   }
   addTodo = (todo) => {
     const { todoList } = this.state;
@@ -40,39 +42,12 @@ class App extends React.Component {
   };
   editTodoItem = (id, content) => {
     const { todoList } = this.state;
-    const newTodoList = todoList.map((todo) => {
-      if (todo.id === id) {
-        return {
-          ...todo,
-          content,
-        };
-      }
-      return todo;
-    });
+    const todo = todoList.find((todo) => todo.id === id);
+    todo.content = content;
     this.setState({
-      todoList: newTodoList,
+      todoList,
     });
   };
-  updateTodoItem = (content) => {
-    const { todoList, idRef } = this.state;
-    // const newTodo = todoList.find((todo) => todo.id === idRef);
-    // newTodo.content = content;
-    // todoList = JSON.stringify(todoList)
-    // todoList = JSON.parse(todoList)
-    const newTodoList = todoList.map((todo) => {
-      if(todo.id === idRef) {
-        return {
-          ...todoList,
-          content: content
-        };
-      }
-      return todo;
-    })
-    this.setState({
-      todoList: newTodoList,
-      refInputUpdate: false,
-    });
-  }
   changeIsCompleted = (id) => {
     const { todoList } = this.state;
     const newList = todoList.map((todo) => {
@@ -90,7 +65,7 @@ class App extends React.Component {
   };
   deleteAllTodoItem = () => {
     const { todoList } = this.state;
-    const newList = todoList.filter((todo) => todo.isCompleted === false);
+    const newList = todoList.filter((todo) => !todo.isCompleted);
     this.setState({
       todoList: newList,
     });
@@ -100,22 +75,43 @@ class App extends React.Component {
       myOption: option,
     });
   };
-  requestUpdate = (id) => {
+  requestUpdate = async (id) => {
+    const { todoList } = this.state;
+    const todo = todoList.find((todo) => todo.id === id);
+    await this.setState({
+      clickUpdate: true,
+      idClick: id,
+      inputValue: todo.content,
+    });
+
+    this.updateTodoItem();
+  };
+  updateTodoItem = () => {
+    const { inputValue } = this.state;
+    this.inputRef.current.value = inputValue;
+    this.inputRef.current.focus();
+  };
+  updateContent = (content) => {
+    const { todoList, idClick } = this.state;
+    const todo = todoList.find((todo) => todo.id === idClick);
+    todo.content = content;
     this.setState({
-      refInputUpdate: true,
-      idRef: id,
+      todoList,
+      clickUpdate: false,
     });
   };
   render() {
-    const { todoList, myOption, refInputUpdate } = this.state;
+    const { todoList, myOption, clickUpdate } = this.state;
     return (
       <div className="container">
         <h1>todos</h1>
         <div className="main">
           <Header
-            refInputUpdate={refInputUpdate}
             addTodo={this.addTodo}
             updateTodoItem={this.updateTodoItem}
+            inputRef={this.inputRef}
+            updateContent={this.updateContent}
+            clickUpdate={clickUpdate}
           />
           <TodoList
             todoList={todoList}
