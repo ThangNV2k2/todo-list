@@ -3,6 +3,8 @@ import Todo from "./Todo";
 import "../assets/css/TodoList.css";
 import propstypes from "prop-types";
 import { options } from "../App";
+
+let isGetting = false;
 class TodoList extends React.Component {
   constructor() {
     super();
@@ -16,12 +18,18 @@ class TodoList extends React.Component {
     this.isScroll.current.addEventListener("scroll", () => {
       if (
         this.isScroll.current.scrollTop + this.isScroll.current.clientHeight >=
-        this.isScroll.current.scrollHeight - 10
+        this.isScroll.current.scrollHeight - 10 && !isGetting
       ) {
+        const { numberTodo } = this.state;
+        isGetting = true;
+        if(numberTodo >= this.props.todoList.length) {
+          return;
+        }
         this.setState({ loadingState: true });
         setTimeout(() => {
+          isGetting = false;
           this.setState({
-            numberTodo: this.state.numberTodo + 4,
+            numberTodo: numberTodo + 4,
             loadingState: false,
           });
         }, 1000);
@@ -39,9 +47,6 @@ class TodoList extends React.Component {
     } = this.props;
     const { numberTodo } = this.state;
     const todoListDisplay = [];
-    if (todoList.length > 4 && numberTodo >= todoList.length + 4) {
-      this.setState({ numberTodo: 4 });
-    }
     for (let i = 0; i < numberTodo; i++) {
       if (
         (todoList[i] && todoList[i].id) &&

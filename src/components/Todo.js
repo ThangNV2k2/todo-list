@@ -14,11 +14,10 @@ class Todo extends React.Component {
     const { todo, deleteTodoItem } = this.props;
     deleteTodoItem(todo.id);
   };
-  handleDoubleClick = async () => {
-    await this.setState({
+  handleDoubleClick = () => {
+    this.setState({
       isEditing: true,
-    });
-    this.inputRef.current.focus();
+    }, () => this.inputRef.current.focus());
   };
   handleKeyDown = (e) => {
     if (e.code === "Enter") {

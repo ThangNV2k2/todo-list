@@ -20,11 +20,8 @@ class App extends React.Component {
         {id: uuidv4(), content: "Nấu cơm", isCompleted: false},
       ],
       myOption: options.All,
-      clickUpdate: false,
-      idClick: null,
-      inputValue: "",
     };
-    this.inputRef = React.createRef();
+    this.headerRef = React.createRef();
   }
   addTodo = (todo) => {
     const { todoList } = this.state;
@@ -45,7 +42,7 @@ class App extends React.Component {
     const todo = todoList.find((todo) => todo.id === id);
     todo.content = content;
     this.setState({
-      todoList,
+      todoList
     });
   };
   changeIsCompleted = (id) => {
@@ -70,48 +67,24 @@ class App extends React.Component {
       todoList: newList,
     });
   };
-  changeOption = (option) => {
-    this.setState({
-      myOption: option,
-    });
-  };
-  requestUpdate = async (id) => {
-    const { todoList } = this.state;
-    const todo = todoList.find((todo) => todo.id === id);
-    await this.setState({
-      clickUpdate: true,
-      idClick: id,
-      inputValue: todo.content,
-    });
-
-    this.updateTodoItem();
-  };
-  updateTodoItem = () => {
-    const { inputValue } = this.state;
-    this.inputRef.current.value = inputValue;
-    this.inputRef.current.focus();
-  };
-  updateContent = (content) => {
-    const { todoList, idClick } = this.state;
-    const todo = todoList.find((todo) => todo.id === idClick);
-    todo.content = content;
-    this.setState({
-      todoList,
-      clickUpdate: false,
-    });
-  };
+  changeOption = (option) => {this.setState({myOption: option})};
+  requestUpdate = (id) => this.headerRef.current.changeIdUpdate(id);
+  contentTodo = (id) => {
+    const todo = this.state.todoList.find((todo) => todo.id === id);
+    return todo.content;
+  }
   render() {
-    const { todoList, myOption, clickUpdate } = this.state;
+    const { todoList, myOption } = this.state;
     return (
       <div className="container">
         <h1>todos</h1>
         <div className="main">
           <Header
             addTodo={this.addTodo}
-            updateTodoItem={this.updateTodoItem}
-            inputRef={this.inputRef}
-            updateContent={this.updateContent}
-            clickUpdate={clickUpdate}
+            ref={this.headerRef}
+            requestUpdate={this.requestUpdate}
+            editTodoItem={this.editTodoItem}
+            contentTodo={this.contentTodo}
           />
           <TodoList
             todoList={todoList}

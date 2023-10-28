@@ -8,6 +8,7 @@ class Header extends React.Component {
     this.inputRef = React.createRef();
     this.state = {
       value: "",
+      idUpdate: null
     };
   }
   updateContent = (e) => {
@@ -32,40 +33,38 @@ class Header extends React.Component {
       }
     }
   };
+  changeIdUpdate = (id) => {
+    this.setState({
+      idUpdate: id
+    }, () => {
+      this.inputRef.current.value = this.props.contentTodo(id);
+      this.inputRef.current.focus();
+    });
+  }
   eventUpdate = (e) => {
     if (e.code === "Enter") {
-      const { updateContent } = this.props;
-      const { value } = this.state;
+      const { editTodoItem } = this.props;
+      const { value, idUpdate } = this.state;
       if (value.trim() !== "") {
-        updateContent(value.trim());
+        editTodoItem(idUpdate, value.trim());
         this.setState({
           value: "",
-        });
+        }, () => this.setState({idUpdate: null}));
       }
     }
   };
   render() {
-    const { value } = this.state;
-    const { clickUpdate, inputRef } = this.props;
+    const { value, idUpdate } = this.state;
     return (
       <div className="header">
-        {!clickUpdate ? (
           <input
             type="text"
-            placeholder="What needs to be done?"
+            placeholder={!idUpdate ? "What needs to be done?" : ""}
             value={value}
             onChange={this.updateContent}
-            onKeyDown={this.eventSubmit}
+            onKeyDown={!idUpdate ? this.eventSubmit : this.eventUpdate}
+            ref={this.inputRef}
           />
-        ) : (
-          <input
-            type="text"
-            value={value}
-            onChange={this.updateContent}
-            onKeyDown={this.eventUpdate}
-            ref={inputRef}
-          />
-        )}
       </div>
     );
   }
