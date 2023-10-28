@@ -26,7 +26,7 @@
 .checkbox_item i {
     display: none;
     position: absolute;
-    color: rgb(69, 118, 69);
+    color: #4daf54;
     font-size: 16px;
     top: 6px;
     left: 6px;
@@ -55,7 +55,6 @@
 .feature i {
     display: inline-block;
     cursor: pointer;
-    color: #5f5d5d;
     font-size: 18px;
     padding: 6px 8px;
 }
@@ -70,4 +69,10 @@
 }
 .updateTodo {
     border: 2px solid rgb(242, 24, 24);
+}
+.light {
+    color: #5a5858;
+}
+.dark {
+    color: #4daf54;
 }

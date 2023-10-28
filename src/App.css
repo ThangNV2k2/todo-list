@@ -2,10 +2,29 @@
   width: 550px;
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
 }
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
 .container h1 {
   text-align: center;
-  color: #ebd7d7;
   font-size: 100px;
   font-weight: 500;
   padding: 20px 0px 10px 0px;
+}
+.dark-background {
+  background: #2d2c2d;
+}
+.light-background {
+  background: #fff;
+}
+
+.darkH1 {
+  color:#4daf54;
+}
+.lightH1 {
+  color:#f95f5f;
 }

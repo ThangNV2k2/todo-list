@@ -5,3 +5,12 @@ ul {
     text-align: center;
     font-size: 14px;
 }
+.loadDark {
+    color: #fff;
+}
+.backLightTodoList {
+    background-color: #fff;
+}
+.backDarkTodoList {
+    background-color: #3b3a3b;
+}

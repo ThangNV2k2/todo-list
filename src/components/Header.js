@@ -1,6 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../assets/css/Header.css";
+import { ThemeContext, background } from "../App";
 import propstypes from "prop-types";
 class Header extends React.Component {
   constructor() {
@@ -8,7 +9,7 @@ class Header extends React.Component {
     this.inputRef = React.createRef();
     this.state = {
       value: "",
-      idUpdate: null
+      idUpdate: null,
     };
   }
   updateContent = (e) => {
@@ -34,38 +35,49 @@ class Header extends React.Component {
     }
   };
   changeIdUpdate = (id) => {
-    this.setState({
-      idUpdate: id
-    }, () => {
-      this.inputRef.current.value = this.props.contentTodo(id);
-      this.inputRef.current.focus();
-    });
-  }
+    this.setState(
+      {
+        idUpdate: id,
+      },
+      () => {
+        this.inputRef.current.value = this.props.contentTodo(id);
+        this.inputRef.current.focus();
+      }
+    );
+  };
   eventUpdate = (e) => {
     if (e.code === "Enter") {
       const { editTodoItem } = this.props;
       const { value, idUpdate } = this.state;
       if (value.trim() !== "") {
         editTodoItem(idUpdate, value.trim());
-        this.setState({
-          value: "",
-        }, () => this.setState({idUpdate: null}));
+        this.setState(
+          {
+            value: "",
+          },
+          () => this.setState({ idUpdate: null })
+        );
       }
     }
   };
   render() {
     const { value, idUpdate } = this.state;
     return (
-      <div className="header">
-          <input
-            type="text"
-            placeholder={!idUpdate ? "What needs to be done?" : ""}
-            value={value}
-            onChange={this.updateContent}
-            onKeyDown={!idUpdate ? this.eventSubmit : this.eventUpdate}
-            ref={this.inputRef}
-          />
-      </div>
+      <ThemeContext.Consumer>
+        {({ theme }) => (
+          <div className={`header ${theme === background.dark ? 'backDarkTodoList' : 'backLightTodoList'}`}>
+            <input
+              type="text"
+              placeholder={!idUpdate ? "What needs to be done?" : ""}
+              value={value}
+              onChange={this.updateContent}
+              onKeyDown={!idUpdate ? this.eventSubmit : this.eventUpdate}
+              ref={this.inputRef}
+              className={`${theme === background.dark ? 'inputDark' : 'inputLight'}`}
+            />
+          </div>
+        )}
+      </ThemeContext.Consumer>
     );
   }
 }

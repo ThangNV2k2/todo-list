@@ -1,8 +1,8 @@
 import React from "react";
 import Todo from "./Todo";
 import "../assets/css/TodoList.css";
+import { ThemeContext, options, background } from "../App";
 import propstypes from "prop-types";
-import { options } from "../App";
 
 let isGetting = false;
 class TodoList extends React.Component {
@@ -18,11 +18,12 @@ class TodoList extends React.Component {
     this.isScroll.current.addEventListener("scroll", () => {
       if (
         this.isScroll.current.scrollTop + this.isScroll.current.clientHeight >=
-        this.isScroll.current.scrollHeight - 10 && !isGetting
+          this.isScroll.current.scrollHeight - 10 &&
+        !isGetting
       ) {
         const { numberTodo } = this.state;
         isGetting = true;
-        if(numberTodo >= this.props.todoList.length) {
+        if (numberTodo >= this.props.todoList.length) {
           return;
         }
         this.setState({ loadingState: true });
@@ -49,10 +50,11 @@ class TodoList extends React.Component {
     const todoListDisplay = [];
     for (let i = 0; i < numberTodo; i++) {
       if (
-        (todoList[i] && todoList[i].id) &&
+        todoList[i] &&
+        todoList[i].id &&
         (myOption === options.All ||
-        (myOption === options.Active && !todoList[i].isCompleted) ||
-        (myOption === options.Completed && todoList[i].isCompleted))
+          (myOption === options.Active && !todoList[i].isCompleted) ||
+          (myOption === options.Completed && todoList[i].isCompleted))
       ) {
         todoListDisplay.push(
           <Todo
@@ -71,16 +73,20 @@ class TodoList extends React.Component {
   render() {
     const { loadingState } = this.state;
     return (
-      <div className="body">
-        <ul
-          className="todo-list"
-          ref={this.isScroll}
-          style={{ maxHeight: "200px", overflowY: "scroll" }}
-        >
-          {this.displayTodoList()}
-        </ul>
-        {loadingState ? <p className="load">Loading more todo...</p> : ""}
-      </div>
+      <ThemeContext.Consumer>
+        {({ theme }) => (
+          <div className={`${theme===background.dark ? 'backDarkTodoList' : 'backLightTodoList'}`}>
+            <ul
+              className="todo-list"
+              ref={this.isScroll}
+              style={{ maxHeight: "200px", overflowY: "scroll" }}
+            >
+              {this.displayTodoList()}
+            </ul>
+            {loadingState ? <p className={`load ${theme === background.dark ? 'loadDark' : ''}`}>Loading more todo...</p> : ""}
+          </div>
+        )}
+      </ThemeContext.Consumer>
     );
   }
 }
@@ -92,5 +98,5 @@ TodoList.propTypes = {
   changeIsCompleted: propstypes.func,
   deleteTodoItem: propstypes.func,
   requestUpdate: propstypes.func,
-}
+};
 export default TodoList;

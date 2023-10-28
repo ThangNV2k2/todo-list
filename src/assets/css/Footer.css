@@ -14,14 +14,20 @@
 }
 .Footer .Footer--left .btns .btn {
     margin-right: 10px;
-    padding: 3px 6px;
-    border-radius: 2px;
+    padding: 5px 10px;
+    border-radius: 5px;
     outline: none;
-    background: #fff;
     cursor: pointer;
     border: 1px solid #fff;
 }
-
+.darkBtn{
+    color: #fff;
+    background-color: #4daf54;
+    border: none;
+}
+.lightBtn{
+    background: #fff;
+}
 .Footer .btns .btn:hover {
     border: 1px solid #ebd7d7;
 }
@@ -29,11 +35,29 @@
     color: #aaa;
 }
 
-.clear {
+.clearLight {
     border: none;
     background: #fff;
+}
+.clearLight:hover, .clearDark:hover{
+    text-decoration: underline;
     cursor: pointer;
 }
-.clear:hover {
-    text-decoration: underline;
+.clearDark {
+    border: none;
+    color: #fff;
+    background: #3b3a3b;
+}
+
+.lightFt {
+    color: #5a5858;
+}
+.darkFt {
+    color: #fff;
+}
+.backLight {
+    background-color: #fff;
+}
+.backDark {
+    background-color: #3b3a3b;
 }

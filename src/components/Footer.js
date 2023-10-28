@@ -1,6 +1,6 @@
 import "../assets/css/Footer.css";
 import React from "react";
-import { options } from "../App";
+import { options, background, ThemeContext } from "../App";
 import propstypes from "prop-types";
 class Footer extends React.Component {
   constructor() {
@@ -33,40 +33,50 @@ class Footer extends React.Component {
     const { todoList, deleteAllTodoItem, myOption, changeOption } = this.props;
     const { cntTodo } = this.state;
     return (
-      todoList.length > 0 && (
-        <div className="Footer">
-          <div className="Footer--left">
-            <p>{cntTodo} items left</p>
-            <div className="btns">
-              <button
-                className={`btn ${myOption === options.All ? "act" : ""}`}
-                onClick={() => changeOption(options.All)}
-              >
-                All
-              </button>
-              <button
-                className={`btn ${myOption === options.Active ? "act" : ""}`}
-                onClick={() => changeOption(options.Active)}
-              >
-                Active
-              </button>
-              <button
-                className={`btn ${myOption === options.Completed ? "act" : ""}`}
-                onClick={() => changeOption(options.Completed)}
-              >
-                Completed
-              </button>
+      <ThemeContext>
+        {({ theme }) =>
+          todoList.length > 0 && (
+            <div className={`Footer ${theme === background.dark ? 'backDark' : 'backLight'}`}>
+              <div className={`Footer--left ${theme === background.dark ? 'darkFt' : 'lightFt'}`}>
+                <p>{cntTodo} items left</p>
+                <div className="btns">
+                  <button
+                    className={`btn ${myOption === options.All ? "act" : ""} ${theme === background.dark ? 'darkBtn' : 'lightBtn'}`}
+                    onClick={() => changeOption(options.All)}
+                  >
+                    All
+                  </button>
+                  <button
+                    className={`btn ${
+                      myOption === options.Active ? "act" : ""}
+                      ${theme === background.dark ? 'darkBtn' : 'lightBtn'}
+                    `}
+                    onClick={() => changeOption(options.Active)}
+                  >
+                    Active
+                  </button>
+                  <button
+                    className={`btn ${
+                      myOption === options.Completed ? "act" : ""}
+                      ${theme === background.dark ? 'darkBtn' : 'lightBtn'}
+                    `}
+                    onClick={() => changeOption(options.Completed)}
+                  >
+                    Completed
+                  </button>
+                </div>
+              </div>
+              <div className="Footer--right">
+                {todoList.length - cntTodo > 0 && (
+                  <button className={`${theme === background.dark ? 'clearDark' : 'clearLight'}`} onClick={deleteAllTodoItem}>
+                    Clear completed
+                  </button>
+                )}
+              </div>
             </div>
-          </div>
-          <div className="Footer--right">
-            {todoList.length - cntTodo > 0 && (
-              <button className="clear" onClick={deleteAllTodoItem}>
-                Clear completed
-              </button>
-            )}
-          </div>
-        </div>
-      )
+          )
+        }
+      </ThemeContext>
     );
   }
 }
