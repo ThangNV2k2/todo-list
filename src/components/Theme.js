@@ -6,7 +6,7 @@ class Theme extends React.Component {
     return (
       <ThemeContext.Consumer>
         {({ theme, toggleTheme }) => (
-          <div class="toggle">
+          <div className="toggle">
             <input
               type="checkbox"
               id="toggleMode"

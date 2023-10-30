@@ -4,40 +4,9 @@ import "../assets/css/TodoList.css";
 import { options } from "../App";
 import { ThemeContext } from "./ThemeProvider";
 import propstypes from "prop-types";
+import { withScroll } from "../HOC/withScroll";
 
-let isGetting = false;
 class TodoList extends React.Component {
-  constructor() {
-    super();
-    this.isScroll = React.createRef();
-    this.state = {
-      numberTodo: 4,
-      loadingState: false,
-    };
-  }
-  componentDidMount() {
-    this.isScroll.current.addEventListener("scroll", () => {
-      if (
-        this.isScroll.current.scrollTop + this.isScroll.current.clientHeight >=
-          this.isScroll.current.scrollHeight - 10 &&
-        !isGetting
-      ) {
-        const { numberTodo } = this.state;
-        isGetting = true;
-        if (numberTodo >= this.props.todoList.length) {
-          return;
-        }
-        this.setState({ loadingState: true });
-        setTimeout(() => {
-          isGetting = false;
-          this.setState({
-            numberTodo: numberTodo + 4,
-            loadingState: false,
-          });
-        }, 1000);
-      }
-    });
-  }
   displayTodoList = () => {
     const {
       todoList,
@@ -46,8 +15,8 @@ class TodoList extends React.Component {
       changeIsCompleted,
       deleteTodoItem,
       requestUpdate,
+      numberTodo,
     } = this.props;
-    const { numberTodo } = this.state;
     const todoListDisplay = [];
     for (let i = 0; i < numberTodo; i++) {
       if (
@@ -72,14 +41,14 @@ class TodoList extends React.Component {
     return todoListDisplay;
   };
   render() {
-    const { loadingState } = this.state;
+    const { loadingState, isScroll } = this.props;
     return (
       <ThemeContext.Consumer>
         {({ theme }) => (
           <div className={`${theme}`}>
             <ul
               className="todo-list"
-              ref={this.isScroll}
+              ref={isScroll}
               style={{ maxHeight: "200px", overflowY: "scroll" }}
             >
               {this.displayTodoList()}
@@ -99,5 +68,8 @@ TodoList.propTypes = {
   changeIsCompleted: propstypes.func,
   deleteTodoItem: propstypes.func,
   requestUpdate: propstypes.func,
+  numberTodo: propstypes.number,
+  loadingState: propstypes.bool,
+  isScroll: propstypes.object,
 };
-export default TodoList;
+export default withScroll(TodoList, 4);
