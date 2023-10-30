@@ -9,23 +9,10 @@ input {
     line-height: 1.4em;
     width: 100%;
 }
-.inputDark {
+.header.dark input {
     color: #fff;
     background-color: #3b3a3b;
 }
-.inputDark::placeholder {
+.header.dark input::placeholder {
     color: #d2d0d0;
-}
-.light {
-    color: #5a5858;
-}
-.dark {
-    color: #4daf54;
-}
-
-.backLightTodoList {
-    background-color: #fff;
-}
-.backDarkTodoList {
-    background-color: #3b3a3b;
 }

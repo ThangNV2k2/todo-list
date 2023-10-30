@@ -20,44 +20,38 @@
     cursor: pointer;
     border: 1px solid #fff;
 }
-.darkBtn{
+.Footer.dark .btn{
     color: #fff;
     background-color: #4daf54;
     border: none;
 }
-.lightBtn{
+.Footer.light .btn{
     background: #fff;
 }
-.Footer .btns .btn:hover {
+.Footer.light .btn:hover {
     border: 1px solid #ebd7d7;
 }
-.act {
+.Footer.dark .btn:hover {
+    background: #278a2e;
+}
+.Footer.light .act {
     color: #aaa;
 }
+.Footer.dark .act {
+    background: #278a2e;
+    color: #ebd7d7;
+}
 
-.clearLight {
+.Footer.light .clearBtn{
     border: none;
     background: #fff;
 }
-.clearLight:hover, .clearDark:hover{
+.clearBtn:hover {
     text-decoration: underline;
     cursor: pointer;
 }
-.clearDark {
+.Footer.dark .clearBtn {
     border: none;
-    color: #fff;
+    color: #4daf54;
     background: #3b3a3b;
-}
-
-.lightFt {
-    color: #5a5858;
-}
-.darkFt {
-    color: #fff;
-}
-.backLight {
-    background-color: #fff;
-}
-.backDark {
-    background-color: #3b3a3b;
 }

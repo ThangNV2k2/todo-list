@@ -3,14 +3,9 @@ import Header from "./components/Header";
 import TodoList from "./components/TodoList";
 import Footer from "./components/Footer";
 import Theme from "./components/Theme";
+import { ThemeContext } from "./components/ThemeProvider";
 import { v4 as uuidv4 } from "uuid";
 import "./App.css";
-
-export const ThemeContext = React.createContext();
-export const background = {
-  light: "light",
-  dark: "dark"
-}
 
 export const options = {
   All: "All",
@@ -26,7 +21,6 @@ class App extends React.Component {
         { id: uuidv4(), content: "Nấu cơm", isCompleted: false },
       ],
       myOption: options.All,
-      theme: "light",
     };
     this.headerRef = React.createRef();
   }
@@ -90,45 +84,40 @@ class App extends React.Component {
     const todo = this.state.todoList.find((todo) => todo.id === id);
     return todo.content;
   };
-  // thay đổi theme
-  toggleTheme = () => {
-    const { theme } = this.state;
-    this.setState({
-      theme: theme === "light" ? "dark" : "light",
-    });
-  };
   render() {
-    const { todoList, myOption, theme } = this.state;
+    const { todoList, myOption } = this.state;
     return (
-      <ThemeContext.Provider value={{ theme, toggleTheme: this.toggleTheme }}>
-        <div className={`container ${theme=== background.dark ? 'dark-background':'light-background'}`}>
-          <Theme />
-          <h1 className={`${theme=== background.dark ? 'darkH1' : 'lightH1' }`}>todos</h1>
-          <div className="main">
-            <Header
-              addTodo={this.addTodo}
-              ref={this.headerRef}
-              requestUpdate={this.requestUpdate}
-              editTodoItem={this.editTodoItem}
-              contentTodo={this.contentTodo}
-            />
-            <TodoList
-              todoList={todoList}
-              myOption={myOption}
-              deleteTodoItem={this.deleteTodoItem}
-              editTodoItem={this.editTodoItem}
-              changeIsCompleted={this.changeIsCompleted}
-              requestUpdate={this.requestUpdate}
-            />
-            <Footer
-              todoList={todoList}
-              myOption={myOption}
-              changeOption={this.changeOption}
-              deleteAllTodoItem={this.deleteAllTodoItem}
-            />
+      <ThemeContext.Consumer>
+        {({ theme }) => (
+          <div className={`container ${theme}`}>
+            <Theme />
+            <h1>todos</h1>
+            <div className="main">
+              <Header
+                addTodo={this.addTodo}
+                ref={this.headerRef}
+                requestUpdate={this.requestUpdate}
+                editTodoItem={this.editTodoItem}
+                contentTodo={this.contentTodo}
+              />
+              <TodoList
+                todoList={todoList}
+                myOption={myOption}
+                deleteTodoItem={this.deleteTodoItem}
+                editTodoItem={this.editTodoItem}
+                changeIsCompleted={this.changeIsCompleted}
+                requestUpdate={this.requestUpdate}
+              />
+              <Footer
+                todoList={todoList}
+                myOption={myOption}
+                changeOption={this.changeOption}
+                deleteAllTodoItem={this.deleteAllTodoItem}
+              />
+            </div>
           </div>
-        </div>
-      </ThemeContext.Provider>
+        )}
+      </ThemeContext.Consumer>
     );
   }
 }

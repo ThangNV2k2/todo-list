@@ -1,7 +1,7 @@
 import React from "react";
 import { v4 as uuidv4 } from "uuid";
 import "../assets/css/Header.css";
-import { ThemeContext, background } from "../App";
+import { ThemeContext } from "./ThemeProvider";
 import propstypes from "prop-types";
 class Header extends React.Component {
   constructor() {
@@ -65,7 +65,7 @@ class Header extends React.Component {
     return (
       <ThemeContext.Consumer>
         {({ theme }) => (
-          <div className={`header ${theme === background.dark ? 'backDarkTodoList' : 'backLightTodoList'}`}>
+          <div className={`header ${theme}`}>
             <input
               type="text"
               placeholder={!idUpdate ? "What needs to be done?" : ""}
@@ -73,7 +73,6 @@ class Header extends React.Component {
               onChange={this.updateContent}
               onKeyDown={!idUpdate ? this.eventSubmit : this.eventUpdate}
               ref={this.inputRef}
-              className={`${theme === background.dark ? 'inputDark' : 'inputLight'}`}
             />
           </div>
         )}

@@ -1,16 +1,16 @@
 ul {
     list-style: none;
 }
-.load {
+.loading {
     text-align: center;
     font-size: 14px;
 }
-.loadDark {
+.dark .loading {
     color: #fff;
 }
-.backLightTodoList {
+.light {
     background-color: #fff;
 }
-.backDarkTodoList {
+.dark {
     background-color: #3b3a3b;
 }

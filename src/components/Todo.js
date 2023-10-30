@@ -1,6 +1,6 @@
 import React from "react";
 import "../assets/css/Todo.css";
-import { ThemeContext } from "../App";
+import { ThemeContext } from "./ThemeProvider";
 import propstypes from "prop-types";
 class Todo extends React.Component {
   constructor(props) {

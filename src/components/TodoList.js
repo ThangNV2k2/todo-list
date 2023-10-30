@@ -1,7 +1,8 @@
 import React from "react";
 import Todo from "./Todo";
 import "../assets/css/TodoList.css";
-import { ThemeContext, options, background } from "../App";
+import { options } from "../App";
+import { ThemeContext } from "./ThemeProvider";
 import propstypes from "prop-types";
 
 let isGetting = false;
@@ -75,7 +76,7 @@ class TodoList extends React.Component {
     return (
       <ThemeContext.Consumer>
         {({ theme }) => (
-          <div className={`${theme===background.dark ? 'backDarkTodoList' : 'backLightTodoList'}`}>
+          <div className={`${theme}`}>
             <ul
               className="todo-list"
               ref={this.isScroll}
@@ -83,7 +84,7 @@ class TodoList extends React.Component {
             >
               {this.displayTodoList()}
             </ul>
-            {loadingState ? <p className={`load ${theme === background.dark ? 'loadDark' : ''}`}>Loading more todo...</p> : ""}
+            {loadingState ? <p className="loading">Loading more todo...</p> : ""}
           </div>
         )}
       </ThemeContext.Consumer>

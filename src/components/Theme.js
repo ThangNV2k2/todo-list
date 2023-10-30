@@ -1,5 +1,5 @@
 import React from "react";
-import { ThemeContext, background } from "../App";
+import { ThemeContext } from "./ThemeProvider";
 import "../assets/css/Theme.css";
 class Theme extends React.Component {
   render() {
@@ -10,7 +10,7 @@ class Theme extends React.Component {
             <input
               type="checkbox"
               id="toggleMode"
-              checked={theme === background.dark}
+              checked={theme === 'dark'}
               onChange={toggleTheme}
               hidden
             />
