@@ -6,6 +6,7 @@ import { ThemeContext } from "./ThemeProvider";
 import propstypes from "prop-types";
 import { withScroll } from "../HOC/withScroll";
 
+let isScroll = React.createRef();
 class TodoList extends React.Component {
   displayTodoList = () => {
     const {
@@ -41,7 +42,7 @@ class TodoList extends React.Component {
     return todoListDisplay;
   };
   render() {
-    const { loadingState, isScroll } = this.props;
+    const { loadingState } = this.props;
     return (
       <ThemeContext.Consumer>
         {({ theme }) => (
@@ -72,4 +73,4 @@ TodoList.propTypes = {
   loadingState: propstypes.bool,
   isScroll: propstypes.object,
 };
-export default withScroll(TodoList, 4);
+export default withScroll(TodoList, 4, isScroll);

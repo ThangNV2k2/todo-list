@@ -1,22 +1,22 @@
 import React from "react";
 
 let isGetting = false;
-export const withScroll = (WrappedComponent, numberTodo) => {
+export const withScroll = (WrappedComponent, numberTodo, isScroll) => {
   return class extends React.Component {
     constructor() {
       super();
-      this.isScroll = React.createRef();
+      // this.isScroll = React.createRef();
       this.state = {
         numberTodo: numberTodo,
         loadingState: false,
       };
     }
     componentDidMount() {
-      this.isScroll.current?.addEventListener("scroll", () => {
+      isScroll.current?.addEventListener("scroll", () => {
         if (
-          this.isScroll.current.scrollTop +
-            this.isScroll.current.clientHeight >=
-            this.isScroll.current.scrollHeight - 10 &&
+          isScroll.current.scrollTop +
+            isScroll.current.clientHeight >=
+            isScroll.current.scrollHeight - 10 &&
           !isGetting
         ) {
           const { numberTodo } = this.state;
@@ -41,7 +41,7 @@ export const withScroll = (WrappedComponent, numberTodo) => {
         <WrappedComponent
           numberTodo={numberTodo}
           loadingState={loadingState}
-          isScroll={this.isScroll}
+          // isScroll={this.isScroll}
           {...this.props}
         />
       );
